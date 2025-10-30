@@ -1,0 +1,106 @@
+[gd_scene load_steps=10 format=3 uid="uid://cg7c8i27pwyax"]
+
+[ext_resource type="Texture2D" uid="uid://c8xu2s0h81uyt" path="res://images/wallpaper.jpeg" id="1_8eerd"]
+[ext_resource type="PackedScene" uid="uid://pawmtxiejdnq" path="res://scenes/player.tscn" id="1_i8yf7"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_t5aen"]
+[ext_resource type="PackedScene" uid="uid://bynwy23cxb5xt" path="res://scenes/coin.tscn" id="2_67r6h"]
+[ext_resource type="AudioStream" uid="uid://cf12gqc6khnol" path="res://sounds/romantic-classical.mp3" id="5_u3vbp"]
+[ext_resource type="FontFile" uid="uid://dtma0yt6g810v" path="res://fonts/PixelifySans-VariableFont_wght.ttf" id="6_ciovi"]
+
+[sub_resource type="Animation" id="Animation_yhlc2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(68, 364.025)]
+}
+
+[sub_resource type="Animation" id="Animation_v2a4a"]
+resource_name = "bobbing"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(68, 358), Vector2(68, 369), Vector2(68, 358)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m41yg"]
+_data = {
+"RESET": SubResource("Animation_yhlc2"),
+"bobbing": SubResource("Animation_v2a4a")
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_t5aen")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 736.0
+offset_bottom = 1308.0
+texture = ExtResource("1_8eerd")
+stretch_mode = 6
+
+[node name="Player" parent="." instance=ExtResource("1_i8yf7")]
+position = Vector2(544, 366)
+
+[node name="Coin" parent="." instance=ExtResource("2_67r6h")]
+position = Vector2(322, 120)
+
+[node name="Coin2" parent="." instance=ExtResource("2_67r6h")]
+position = Vector2(543, 215)
+
+[node name="Coin3" parent="." instance=ExtResource("2_67r6h")]
+position = Vector2(119, 440)
+
+[node name="Coin4" parent="." instance=ExtResource("2_67r6h")]
+position = Vector2(69, 725)
+
+[node name="Coin5" parent="." instance=ExtResource("2_67r6h")]
+position = Vector2(504, 634)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("5_u3vbp")
+
+[node name="WinLabel" type="Label" parent="."]
+process_mode = 3
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 68.0
+offset_top = 364.025
+offset_right = 540.0
+offset_bottom = 434.025
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 0
+theme_override_fonts/font = ExtResource("6_ciovi")
+theme_override_font_sizes/font_size = 26
+text = "Congratulations! 
+You've collected all the coins."
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WinLabel"]
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_m41yg")
+}
